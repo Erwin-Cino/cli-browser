@@ -2,6 +2,9 @@ import {useEffect, useState, useRef} from 'react';
 import ReactDOM from 'react-dom';
 import * as esbuild from 'esbuild-wasm';
 import { unpkgPathPlugin } from './plugins/unpkg-path-plugin';
+import { fetchPlugin } from './plugins/fetch-plugin';
+
+
 const App = () => {
     const ref = useRef<any>();
     const [input, setInput] = useState('');
@@ -11,32 +14,24 @@ const App = () => {
             worker: true,
             wasmURL: '/esbuild.wasm'
         })
-        const result = await ref.current.build({
-            entryPoints: ['index.js'],
-            bundle: true,
-            write: false,
-            plugins: [unpkgPathPlugin(input)],
-            define: {
-                'process.env.NODE_ENV': '"production"',
-                global: 'window'
-            }
-        })
-        console.log("RESULT", result);
-
-        setCode(result.outputFiles[0].text)
+        
     }
     useEffect(() => {
         startService();
     }, []);
     const onSubmit = async () => {
         if (!ref.current) return;
-        console.log("INPUT TYPE", ref.current);
-        const result = await ref.current.transform(input, {
-            loader: 'jsx',
-            target: 'es2015'
-        });
-        console.log("RESULT", result)
-        setCode(result.code)  
+        const result = await ref.current.build({
+            entryPoints: ['index.js'],
+            bundle: true,
+            write: false,
+            plugins: [unpkgPathPlugin(), fetchPlugin(input)],
+            define: {
+                'process.env.NODE_ENV': '"production"',
+                global: 'window'
+            }
+        })
+        setCode(result.outputFiles[0].text)
     }
     return (
         <div>
