@@ -31,7 +31,12 @@ const App = () => {
                 global: 'window'
             }
         })
-        setCode(result.outputFiles[0].text)
+        setCode(result.outputFiles[0].text);
+        try {
+            eval(result.outputFiles[0].text);
+        } catch (e) {
+            alert(e)
+        }
     }
     return (
         <div>
@@ -46,8 +51,11 @@ const App = () => {
             <pre>
                 {code}
             </pre>
+            <iframe sandbox='' srcDoc={html} />
         </div>
     )
 }
+
+const html = `<h1>LOCAL HTML DOC</h1>`
 
 ReactDOM.render(<App />, document.querySelector("#root"))
