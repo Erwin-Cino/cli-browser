@@ -22,6 +22,9 @@ const App = () => {
     }, []);
     const onSubmit = async () => {
         if (!ref.current) return;
+
+        iframeRef.current.srcdoc = html;
+
         const result = await ref.current.build({
             entryPoints: ['index.js'],
             bundle: true,
