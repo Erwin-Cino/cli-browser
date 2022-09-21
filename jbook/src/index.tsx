@@ -9,7 +9,6 @@ const App = () => {
     const ref = useRef<any>();
     const iframeRef = useRef<any>();
     const [input, setInput] = useState('');
-    const [code, setCode] = useState('');
     const startService = async () => {
         ref.current = await esbuild.startService({
             worker: true,
@@ -35,12 +34,6 @@ const App = () => {
                 global: 'window'
             }
         })
-        // setCode(result.outputFiles[0].text);
-        // try {
-        //     eval(result.outputFiles[0].text);
-        // } catch (e) {
-        //     alert(e)
-        // }
         iframeRef.current.contentWindow.postMessage(result.outputFiles[0].text, '*');
     }
 
@@ -74,10 +67,7 @@ const App = () => {
             <div>
                 <button onClick={onSubmit}>Submit</button>
             </div>
-            <pre>
-                {code}
-            </pre>
-            <iframe ref={iframeRef} sandbox='allow-scripts' srcDoc={html} />
+            <iframe title='preview' ref={iframeRef} sandbox='allow-scripts' srcDoc={html} />
         </div>
     )
 }
