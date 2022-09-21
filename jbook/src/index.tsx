@@ -38,6 +38,12 @@ const App = () => {
             alert(e)
         }
     }
+
+    const html = `
+        <script>
+            ${code}
+        </script>
+    `
     return (
         <div>
             <textarea
@@ -51,11 +57,10 @@ const App = () => {
             <pre>
                 {code}
             </pre>
-            <iframe sandbox='' srcDoc={html} />
+            <iframe sandbox='allow-scripts' srcDoc={html} />
         </div>
     )
 }
 
-const html = `<h1>LOCAL HTML DOC</h1>`
 
 ReactDOM.render(<App />, document.querySelector("#root"))
