@@ -8,7 +8,7 @@ const fileCache = localForage.createInstance({
 
 export const fetchPlugin = (inputCode: string) => {
     return {
-        name: 'feth=ch-plugin',
+        name: 'fetch-plugin',
         setup(build: esbuild.PluginBuild) {
         build.onLoad({ filter: /^index\.js$/ }, () => {
             return {
@@ -44,7 +44,7 @@ export const fetchPlugin = (inputCode: string) => {
             resolveDir: new URL('./', request.responseURL).pathname,
           };
           await fileCache.setItem(args.path, result);
-  
+          //so basically im not really coding just adding a comment here.
           return result;
         });
 
