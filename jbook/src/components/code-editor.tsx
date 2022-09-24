@@ -1,6 +1,5 @@
-import MonacoEditor from '@monaco-editor/react';
-import { SetStateAction, useState, useRef } from 'react';
-import { EditorOptions } from 'typescript';
+import MonacoEditor, { EditorDidMount } from '@monaco-editor/react';
+import { useState } from 'react';
 
 interface CodeEditorProps {
     initialValue: string;
@@ -9,12 +8,12 @@ interface CodeEditorProps {
 
 const CodeEditor: React.FC<CodeEditorProps> = ({initialValue, onChange}) => {
     const [input, setInput] = useState('');
-    console.log('input editor', input)
-    const editorRef = useRef();
-    const onEditorDidMount = (getValue: () => string, monacoEditor:any) => {
+    const onEditorDidMount: EditorDidMount = (getValue, monacoEditor) => {
         monacoEditor.onDidChangeModelContent(() => {
             onChange(getValue())
         })
+
+        monacoEditor.getModel()?.updateOptions({tabSize: 2});
     }
     return (
         <MonacoEditor
