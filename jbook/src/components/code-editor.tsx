@@ -1,8 +1,11 @@
+import './syntax.css'
 import MonacoEditor, { EditorDidMount } from "@monaco-editor/react";
 import { useState, useRef } from "react";
 import prettier from "prettier";
 import parser from "prettier/parser-babel";
 import "bulmaswatch/superhero/bulmaswatch.min.css";
+import codeShift from 'jscodeshift';
+import MonacoJSXHighlighter, { JSXTypes } from "monaco-jsx-highlighter";
 
 interface CodeEditorProps {
   initialValue: string;
@@ -12,14 +15,28 @@ interface CodeEditorProps {
 const CodeEditor: React.FC<CodeEditorProps> = ({ initialValue, onChange }) => {
   const [input, setInput] = useState("");
   const editorRef = useRef<any>();
+  const noop = () => {}
   const onEditorDidMount: EditorDidMount = (getValue, monacoEditor) => {
     editorRef.current = monacoEditor;
 
     monacoEditor.onDidChangeModelContent(() => {
       onChange(getValue());
     });
-
+    
     monacoEditor.getModel()?.updateOptions({ tabSize: 2 });
+
+    const highlighter = new MonacoJSXHighlighter(
+      // @ts-ignore
+      window.monaco,
+      codeShift,
+      monacoEditor
+    );
+    highlighter.highLightOnDidChangeModelContent(
+      noop,
+      noop,
+      undefined,
+      noop
+    );
   };
 
   const onFormatClick = () => {
