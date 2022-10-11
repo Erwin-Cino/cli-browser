@@ -1,11 +1,11 @@
 import './syntax.css'
 import MonacoEditor, { EditorDidMount } from "@monaco-editor/react";
-import { useState, useRef } from "react";
+import { useRef } from "react";
 import prettier from "prettier";
 import parser from "prettier/parser-babel";
 import "bulmaswatch/superhero/bulmaswatch.min.css";
 import codeShift from 'jscodeshift';
-import MonacoJSXHighlighter, { JSXTypes } from "monaco-jsx-highlighter";
+import MonacoJSXHighlighter from "monaco-jsx-highlighter";
 
 interface CodeEditorProps {
   initialValue: string;
@@ -13,7 +13,6 @@ interface CodeEditorProps {
 }
 
 const CodeEditor: React.FC<CodeEditorProps> = ({ initialValue, onChange }) => {
-  const [input, setInput] = useState("");
   const editorRef = useRef<any>();
   const noop = () => {}
   const onEditorDidMount: EditorDidMount = (getValue, monacoEditor) => {
