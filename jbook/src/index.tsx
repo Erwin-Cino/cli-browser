@@ -1,29 +1,13 @@
-import { useState } from "react";
 import ReactDOM from "react-dom";
+import CodeCell from "./components/code-cell";
 
-import CodeEditor from "./components/code-editor";
-import Preview from "./components/preview";
-import bundle from './bundler';
+
 const App = () => {
-  const [input, setInput] = useState("");
-  const [code, setCode] = useState("");
-
-
-  const onSubmit = async () => {
-    const output = await bundle(input);
-    setCode(output)
-  };
 
   return (
     <div>
-      <CodeEditor
-        initialValue="console.log('Hello')"
-        onChange={(value) => setInput(value)}
-      />
-      <div>
-        <button onClick={onSubmit}>Submit</button>
-      </div>
-      <Preview code={code} />
+      <CodeCell />
+      <CodeCell />
     </div>
   );
 };
