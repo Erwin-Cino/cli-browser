@@ -1,4 +1,5 @@
 import './syntax.css'
+import './code-editor.css'
 import MonacoEditor, { EditorDidMount } from "@monaco-editor/react";
 import { useRef } from "react";
 import prettier from "prettier";
@@ -65,7 +66,7 @@ const CodeEditor: React.FC<CodeEditorProps> = ({ initialValue, onChange }) => {
         editorDidMount={onEditorDidMount}
         value={initialValue}
         language="javascript"
-        height="500px"
+        height="100%"
         theme="vs-dark"
         options={{
           wordWrap: "on",
